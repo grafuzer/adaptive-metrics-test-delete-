@@ -1,0 +1,21 @@
+name: Pull Adaptive Metrics recommendations
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 4 * * 1-5"
+
+jobs:
+  autoapply:
+    runs-on: ubuntu-latest
+    name: Pull the latest Adaptive Metrics recommendations
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Pull Recommendations
+        uses: ./.github/workflows/reusable_pull_recommendations.yml
+        with:
+          grafana_am_api_url: ${{ vars.grafana_am_api_url }}
+          grafana_am_api_key: ${{ secrets.grafana_am_api_key }}
+          grafana_am_automerge_enabled: ${{ vars.grafana_am_automerge_enabled }}
